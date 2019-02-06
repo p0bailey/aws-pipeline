@@ -1,0 +1,19 @@
+version: 0.2
+phases:
+  install:
+    commands:
+      - echo "install step..."
+      - apt-get update -y
+  pre_build:
+    commands:
+      - echo "logging in to AWS ECR..."
+      - $(aws ecr get-login --no-include-email --region $AWS_REGION)
+  build:
+    commands:
+      - echo "build Docker image started on `date`"
+      - docker build -t $ECR_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG $IMAGE_NAME/.
+  post_build:
+    commands:
+      - echo "build Docker image complete `date`"
+      - echo "push Docker image to ECR..."
+      - docker push $ECR_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
