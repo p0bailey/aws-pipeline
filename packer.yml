@@ -17,4 +17,6 @@ phases:
       - aws configure set aws_access_key_id `./jq -r '.AccessKeyId' aws_credentials.json`
       - aws configure set aws_secret_access_key `./jq -r '.SecretAccessKey' aws_credentials.json`
       - aws configure set aws_session_token `./jq -r '.Token' aws_credentials.json`
-      - ./packer build -var-file=${CODEBUILD_SRC_DIR}variables.json ${CODEBUILD_SRC_DIR}eks-worker-template.json
+      - cd ${CODEBUILD_SRC_DIR}
+      - ls
+      #- ./packer build -var-file=${CODEBUILD_SRC_DIR}variables.json ${CODEBUILD_SRC_DIR}eks-worker-template.json
