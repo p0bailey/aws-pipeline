@@ -1,0 +1,14 @@
+version: 0.2
+
+env:
+  variables:
+    PACKER_VERSION: "1.3.4"
+
+phases:
+  pre_build:
+    commands:
+      - curl -s -qL -o /usr/bin/jq https://stedolan.github.io/jq/download/linux64/jq"
+      - chmod +x /usr/bin/jq"
+      - cd /usr/bin"
+      - echo "Installing Packer
+      - curl -o packer.zip https://releases.hashicorp.com/packer/${PACKER_VERSION}/packer_${PACKER_VERSION}_linux_amd64.zip && unzip packer.zip
