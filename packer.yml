@@ -10,5 +10,5 @@ phases:
       - curl -s -qL -o /usr/bin/jq https://stedolan.github.io/jq/download/linux64/jq
       - chmod +x /usr/bin/jq
       - cd /usr/bin
-      - echo "Installing Packer
+      - echo "Installing Packer"
       - curl -o packer.zip https://releases.hashicorp.com/packer/${PACKER_VERSION}/packer_${PACKER_VERSION}_linux_amd64.zip && unzip packer.zip
