@@ -14,11 +14,12 @@ phases:
       - echo Build started on `date`
       - echo Building the Docker image...
       - docker build -t $ECR_REPOSITORY_URL:`cat timestamp` .
+      - docker tag $ECR_REPOSITORY_URL:`cat timestamp` $ECR_REPOSITORY_URL:latest
 
 
   post_build:
     commands:
       - echo "Build completed on `date -u +%FT%TZ` (ISO-8601)"
-      - echo "Pushing the Docker image"
-      - docker push $REPOSITORY_URI:latest
+#       - echo "Pushing the Docker image"
+#       - docker push $REPOSITORY_URI:latest
 
