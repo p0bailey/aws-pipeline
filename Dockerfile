@@ -1,9 +1,18 @@
-FROM alpine:latest
-ENV TERRAFORM_VERSION=0.11.10
-ENV TERRAFORM_SHA256SUM=43543a0e56e31b0952ea3623521917e060f2718ab06fe2b2d506cfaa14d54527
-RUN apk add --no-cache git curl openssh bash && \
-    curl https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip > terraform_${TERRAFORM_VERSION}_linux_amd64.zip && \
-    echo "${TERRAFORM_SHA256SUM}  terraform_${TERRAFORM_VERSION}_linux_amd64.zip" > terraform_${TERRAFORM_VERSION}_SHA256SUMS && \
-    sha256sum -cs terraform_${TERRAFORM_VERSION}_SHA256SUMS && \
-    unzip terraform_${TERRAFORM_VERSION}_linux_amd64.zip -d /bin && \
-    rm -f terraform_${TERRAFORM_VERSION}_linux_amd64.zip
+# This is a multi-stage build. First we are going to compile and then
+# create a small image for runtime.
+FROM golang:1.11.1 as builder
+
+RUN mkdir -p /go/src/github.com/eks-workshop-sample-api-service-go
+WORKDIR /go/src/github.com/eks-workshop-sample-api-service-go
+RUN useradd -u 10001 app
+COPY . .
+RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o main .
+
+FROM scratch
+
+COPY --from=builder /go/src/github.com/eks-workshop-sample-api-service-go/main /main
+COPY --from=builder /etc/passwd /etc/passwd
+USER app
+
+EXPOSE 8080
+CMD ["/main"]
