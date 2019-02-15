@@ -9,14 +9,13 @@ phases:
       - $(aws ecr get-login --no-include-email --region ${AWS_REGION})
       - REPOSITORY_URI=${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${REPOSITORY_NAME}
       - IMAGE_TAG=prod_$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
-      - printf $IMAGE_TAG
   build:
     commands:
       - echo Build started on `date`
       - echo Building the Docker image...
       - echo Image_tag $IMAGE_TAG
       - echo Repo_uri $REPOSITORY_URI
-      - docker build -t latest .
+      - docker build -t foo:latest .
       - docker tag $REPOSITORY_URI $REPOSITORY_URI:$IMAGE_TAG
   post_build:
     commands:
