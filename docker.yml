@@ -15,7 +15,7 @@ phases:
       - echo Building the Docker image...
       - echo Image_tag $IMAGE_TAG
       - echo Repo_uri $REPOSITORY_URI
-#       - docker build -t latest .
+      - docker build -t latest .
 #       - docker tag $REPOSITORY_URI $REPOSITORY_URI:$IMAGE_TAG
   post_build:
     commands:
