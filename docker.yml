@@ -20,6 +20,6 @@ phases:
   post_build:
     commands:
       - echo "Build completed on `date -u +%FT%TZ` (ISO-8601)"
-#       - echo "Pushing the Docker image"
-#       - docker push $REPOSITORY_URI:latest
+      - docker push $ECR_REPOSITORY_URL:`cat timestamp`
+      - docker push $ECR_REPOSITORY_URL:latest
 
