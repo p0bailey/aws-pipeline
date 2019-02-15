@@ -15,7 +15,7 @@ phases:
       - echo Image_tag $IMAGE_TAG
       - echo Repo_uri $REPOSITORY_URI
       - docker build -t $REPOSITORY_NAME:test .
-      - docker tag $REPOSITORY_NAME:test $REPOSITORY_URI:test
+      - docker tag $REPOSITORY_NAME:test $REPOSITORY_URI
 
 
   post_build:
