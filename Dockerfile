@@ -1,18 +1,15 @@
-# This is a multi-stage build. First we are going to compile and then
-# create a small image for runtime.
-FROM golang:1.11.1 as builder
+FROM node:8
+WORKDIR /src/app
 
-RUN mkdir -p /go/src/github.com/eks-workshop-sample-api-service-go
-WORKDIR /go/src/github.com/eks-workshop-sample-api-service-go
-RUN useradd -u 10001 app
+# Install app dependencies
+COPY package*.json ./
+RUN npm install
+
+# Copy app contents
 COPY . .
-RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o main .
 
-FROM scratch
-
-COPY --from=builder /go/src/github.com/eks-workshop-sample-api-service-go/main /main
-COPY --from=builder /etc/passwd /etc/passwd
-USER app
-
+# App runs on port 8080
 EXPOSE 8080
-CMD ["/main"]
+
+# Start the app
+CMD [ "npm", "start"]
