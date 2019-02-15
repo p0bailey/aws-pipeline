@@ -8,11 +8,14 @@ phases:
       - echo Logging into Amazon ECR...
       - $(aws ecr get-login --no-include-email --region ${AWS_REGION})
       - REPOSITORY_URI=${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${REPOSITORY_NAME}
+      - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
+      - IMAGE_TAG=${COMMIT_HASH:=latest}
   build:
     commands:
-      - echo "Build started on `date -u +%FT%TZ` (ISO-8601)"
-      - echo "Building the Docker image"
-      - docker build -t helloworld .
+      - echo Build started on `date`
+      - echo Building the Docker image...
+      - docker build -t $REPOSITORY_URI:latest .
+      - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
   post_build:
     commands:
       - echo "Build completed on `date -u +%FT%TZ` (ISO-8601)"
