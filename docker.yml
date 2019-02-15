@@ -16,7 +16,7 @@ phases:
       - echo Image_tag $IMAGE_TAG
       - echo Repo_uri $REPOSITORY_URI
       - docker build -t latest .
-#       - docker tag $REPOSITORY_URI $REPOSITORY_URI:$IMAGE_TAG
+      - docker tag $REPOSITORY_URI $REPOSITORY_URI:$IMAGE_TAG
   post_build:
     commands:
       - echo "Build completed on `date -u +%FT%TZ` (ISO-8601)"
