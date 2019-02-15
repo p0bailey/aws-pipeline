@@ -23,5 +23,4 @@ phases:
     commands:
       - echo "Build completed on `date -u +%FT%TZ` (ISO-8601)"
       - echo "Pushing the Docker image"
-      - docker push $REPOSITORY_URI
-      - docker push $IMAGE_TAG
+
